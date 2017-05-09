@@ -1,3 +1,5 @@
+$LOAD_PATH << File.join(File.dirname(__FILE__), "app", "controllers")
+
 class Object
   def self.const_missing(c)
     if c =~ /.*Controller\Z/
@@ -6,7 +8,7 @@ class Object
         gsub(/([a-z\d])([A-Z])/,'\1_\2').
         tr("-", "_").
         downcase
-      require "./app/controllers/#{file_name}.rb"
+      require file_name
       const_get(c)
     else
       super
@@ -16,9 +18,3 @@ end
 
 homes_ctrl = HomesController.new
 homes_ctrl.show
-
-books_ctrl = BooksController.new
-books_ctrl.show
-
-invalid_ctrl = InvaildCtrl.new
-invalid_ctrl.show
